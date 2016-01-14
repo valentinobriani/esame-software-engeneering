@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.example.esamesoftwareengeneering.board.Board xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/board"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:numColumns="10"
+    android:columnWidth="10dp"
+    android:stretchMode="columnWidth"
+    android:choiceMode="multipleChoice" >
+    <!-- 
+    android:choiceMode="multipleChoice"
+    android:listSelector="@drawable/square_selected"
+    
+    android:padding="5dp"
+    android:numColumns="9"
+    android:verticalSpacing="2dp"
+    android:horizontalSpacing="2dp"
+    
+    android:background="#ffffff" -->
+
+</com.example.esamesoftwareengeneering.board.Board>
