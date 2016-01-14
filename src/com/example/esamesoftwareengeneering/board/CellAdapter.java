@@ -52,7 +52,7 @@ public class CellAdapter extends BaseAdapter {
 		
 		cells = new HashMap<Position, Cell>();
 				
-		initBoard();
+		initPieces();
 	}
 	
 	public Map<Position, Cell> getCells() {
@@ -221,7 +221,7 @@ public class CellAdapter extends BaseAdapter {
 		return cell;		
 	}
 	
-	public void initBoard() {		
+	public void initPieces() {		
 		pieces = new HashMap<Position, Piece>();
 		
 		// White pieces

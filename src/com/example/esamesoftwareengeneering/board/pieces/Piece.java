@@ -2,10 +2,13 @@ package com.example.esamesoftwareengeneering.board.pieces;
 
 import com.example.esamesoftwareengeneering.R;
 import com.example.esamesoftwareengeneering.R.drawable;
+import com.example.esamesoftwareengeneering.board.Board;
 import com.example.esamesoftwareengeneering.board.pieces.behaviours.PieceBehaviour;
 import com.example.esamesoftwareengeneering.board.pieces.behaviours.PieceBehaviour.Color;
 import com.example.esamesoftwareengeneering.board.pieces.behaviours.PieceBehaviour.Type;
+import com.example.esamesoftwareengeneering.board.position.File;
 import com.example.esamesoftwareengeneering.board.position.Position;
+import com.example.esamesoftwareengeneering.board.position.Rank;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -38,6 +41,10 @@ public class Piece {
 	
 	public int getResourceId() {
 		return pieceBehaviour.getResourceId();
+	}
+	
+	public boolean hasValidMoves() {
+		return pieceBehaviour.hasValidMoves(this);
 	}
 	
 	public boolean isMoveValid(Position destinationPosition) {

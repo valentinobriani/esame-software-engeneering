@@ -2,9 +2,12 @@ package com.example.esamesoftwareengeneering.board.pieces.behaviours;
 
 import android.util.Log;
 
+import com.example.esamesoftwareengeneering.board.Board;
 import com.example.esamesoftwareengeneering.board.CellAdapter;
 import com.example.esamesoftwareengeneering.board.pieces.Piece;
+import com.example.esamesoftwareengeneering.board.position.File;
 import com.example.esamesoftwareengeneering.board.position.Position;
+import com.example.esamesoftwareengeneering.board.position.Rank;
 import com.example.esamesoftwareengeneering.exceptions.InvalidOperationException;
 
 public abstract class PieceBehaviour {
@@ -80,6 +83,19 @@ public abstract class PieceBehaviour {
 	}
 	
 	public abstract int getResourceId();
+	
+	public boolean hasValidMoves(Piece piece) {
+		boolean validMoves = false;
+		for (int row = Board.FIRST_RANK_ROW; !validMoves && row <= Board.LAST_RANK_ROW; ++row) {
+			for (int column = Board.FIRST_FILE_COLUMN; !validMoves && column <= Board.LAST_FILE_COLUMN; ++column) {
+				Position destinationPosition = new Position(
+						new Rank(row),
+						new File(column));
+				validMoves = isMoveValid(piece, destinationPosition);
+			}
+		}
+		return validMoves;
+	}
 	
 	public abstract boolean isMoveValid(Piece piece, Position destinationPosition);
 	

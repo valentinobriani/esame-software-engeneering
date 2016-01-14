@@ -145,7 +145,6 @@ public class GameActivity extends /*ActionBar*/Activity {
 				performMove();
 			}
 		});
-		
 	}
 	
 	private void performMove() {
