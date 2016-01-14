@@ -1,12 +1,11 @@
-package com.example.esamesoftwareengeneering.pieces.behaviours;
-
-import java.util.Map;
+package com.example.esamesoftwareengeneering.board.pieces.behaviours;
 
 import android.util.Log;
 
+import com.example.esamesoftwareengeneering.board.CellAdapter;
+import com.example.esamesoftwareengeneering.board.pieces.Piece;
 import com.example.esamesoftwareengeneering.board.position.Position;
 import com.example.esamesoftwareengeneering.exceptions.InvalidOperationException;
-import com.example.esamesoftwareengeneering.pieces.Piece;
 
 public abstract class PieceBehaviour {
 	
@@ -17,6 +16,10 @@ public abstract class PieceBehaviour {
 		
 		private Color(int color) {
 			this.color = color;
+		}
+		
+		public Color other() {
+			return (color == 0 ? Color.BLACK : Color.WHITE);
 		}
 		
 		@Override
@@ -53,11 +56,13 @@ public abstract class PieceBehaviour {
 			}
 		}
 	};
+	protected final CellAdapter cellAdapter;
 	protected final Color color;
 	protected final Type type;
 	
 	
-	public PieceBehaviour(Color color, Type type) {
+	public PieceBehaviour(CellAdapter cellAdapter, Color color, Type type) {
+		this.cellAdapter = cellAdapter;
 		this.color = color;
 		this.type = type;
 	}
@@ -76,10 +81,14 @@ public abstract class PieceBehaviour {
 	
 	public abstract int getResourceId();
 	
-	public abstract boolean isMoveValid(Map<Position, Piece> pieces, Position startPosition, Position endPosition);
+	public abstract boolean isMoveValid(Piece piece, Position destinationPosition);
+	
+	public boolean isInCheck(Piece piece) {
+		throw new InvalidOperationException("Default behaviour do not permit to be in check. Only the king can be in check!");
+	}
 	
 	public void promote(Piece piece, Type newType) {
-		throw new InvalidOperationException("Default behaviour not permit type promotion. Implement promotion in subclass!");
+		throw new InvalidOperationException("Default behaviour do not permit promotion. Implement promotion in subclass!");
 	}
 	
 	@Override

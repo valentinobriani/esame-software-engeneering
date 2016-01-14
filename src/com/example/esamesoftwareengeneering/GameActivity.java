@@ -6,15 +6,15 @@ import com.example.esamesoftwareengeneering.board.Board;
 import com.example.esamesoftwareengeneering.board.CellAdapter;
 import com.example.esamesoftwareengeneering.board.cells.Square;
 import com.example.esamesoftwareengeneering.board.cells.Square.Selection;
+import com.example.esamesoftwareengeneering.board.pieces.Piece;
+import com.example.esamesoftwareengeneering.board.pieces.behaviours.BishopBehaviour;
+import com.example.esamesoftwareengeneering.board.pieces.behaviours.KnightBehaviour;
+import com.example.esamesoftwareengeneering.board.pieces.behaviours.PawnBehaviour;
+import com.example.esamesoftwareengeneering.board.pieces.behaviours.PieceBehaviour;
+import com.example.esamesoftwareengeneering.board.pieces.behaviours.QueenBehaviour;
+import com.example.esamesoftwareengeneering.board.pieces.behaviours.RookBehaviour;
+import com.example.esamesoftwareengeneering.board.pieces.behaviours.PieceBehaviour.Color;
 import com.example.esamesoftwareengeneering.board.position.Position;
-import com.example.esamesoftwareengeneering.pieces.Piece;
-import com.example.esamesoftwareengeneering.pieces.behaviours.BishopBehaviour;
-import com.example.esamesoftwareengeneering.pieces.behaviours.KnightBehaviour;
-import com.example.esamesoftwareengeneering.pieces.behaviours.PawnBehaviour;
-import com.example.esamesoftwareengeneering.pieces.behaviours.PieceBehaviour;
-import com.example.esamesoftwareengeneering.pieces.behaviours.QueenBehaviour;
-import com.example.esamesoftwareengeneering.pieces.behaviours.RookBehaviour;
-import com.example.esamesoftwareengeneering.pieces.behaviours.PieceBehaviour.Color;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -120,7 +120,7 @@ public class GameActivity extends /*ActionBar*/Activity {
 	            			
 	            			// Select the clicked destination if the selected piece can move to the destination position
 	            			if (selectedPiece != null &&
-	            					selectedPiece.isMoveValid(cellAdapter.getPieces(), selectedPiecePosition, clickedPosition)) {
+	            					selectedPiece.isMoveValid(clickedPosition)) {
 		            			selectedDestinationPosition = clickedPosition;
 			            		clickedSquare.setSelection(Selection.DESTINATION);	            				
 	            			}

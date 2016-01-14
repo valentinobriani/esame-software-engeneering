@@ -1,20 +1,19 @@
-package com.example.esamesoftwareengeneering.pieces.behaviours;
-
-import java.util.Map;
+package com.example.esamesoftwareengeneering.board.pieces.behaviours;
 
 import android.util.Log;
 
 import com.example.esamesoftwareengeneering.R;
+import com.example.esamesoftwareengeneering.board.CellAdapter;
+import com.example.esamesoftwareengeneering.board.pieces.Piece;
 import com.example.esamesoftwareengeneering.board.position.File;
 import com.example.esamesoftwareengeneering.board.position.Position;
 import com.example.esamesoftwareengeneering.board.position.Rank;
-import com.example.esamesoftwareengeneering.pieces.Piece;
 
 public class QueenBehaviour extends PieceBehaviour {
 	
 	
-	public QueenBehaviour(Color color) {
-		super(color, Type.QUEEN);
+	public QueenBehaviour(CellAdapter cellAdapter, Color color) {
+		super(cellAdapter, color, Type.QUEEN);
 	}
 	
 	@Override
@@ -27,29 +26,32 @@ public class QueenBehaviour extends PieceBehaviour {
 	}
 	
 	@Override
-	public boolean isMoveValid(Map<Position, Piece> pieces, Position startPosition, Position endPosition) {
-		Piece endPositionPiece = pieces.get(endPosition);
+	public boolean isMoveValid(Piece piece, Position destinationPosition) {
+		// Get the piece position
+		Position piecePosition = cellAdapter.getPiecePosition(piece);
+		
+		// Get the destination position's piece
+		Piece destinationPositionPiece = cellAdapter.getPiece(destinationPosition);
 		
 		// Movement / Capture
-		if (endPositionPiece == null ||
-				(endPositionPiece.getColor() != this.color && endPositionPiece.getType() != Type.KING)) {
+		if (destinationPositionPiece == null ||
+				(destinationPositionPiece.getColor() != this.color && destinationPositionPiece.getType() != Type.KING)) {
 			
 			// Perpendicular movement
-			if (endPosition.isPerpendicular(startPosition)) {
-				int rankDistance = startPosition.getRank().distance(endPosition.getRank());
-				int fileDistance = startPosition.getFile().distance(endPosition.getFile());
+			if (destinationPosition.isPerpendicular(piecePosition)) {
+				int rankDistance = piecePosition.getRank().distance(destinationPosition.getRank());
+				int fileDistance = piecePosition.getFile().distance(destinationPosition.getFile());
 				
 				if (rankDistance == 0) {
-					int startColumn = startPosition.getFile().getColumn();
-					int endColumn = endPosition.getFile().getColumn();
+					int startColumn = piecePosition.getFile().getColumn();
+					int endColumn = destinationPosition.getFile().getColumn();
 					int columnOffset = (endColumn - startColumn) / Math.abs(endColumn - startColumn);
 					int column = startColumn + columnOffset;
 					
 					// Check that there are no pieces between start and end position
 					while (column != endColumn) {
-						Position position = new Position(startPosition.getRank(), new File(column));
-						Piece piece = pieces.get(position);
-						if (piece != null) {
+						Position position = new Position(piecePosition.getRank(), new File(column));
+						if (cellAdapter.getPiece(position) != null) {
 							return false;
 						}
 						column += columnOffset;
@@ -57,16 +59,15 @@ public class QueenBehaviour extends PieceBehaviour {
 					
 					return true;
 				} else if (fileDistance == 0) {
-					int startRow = startPosition.getRank().getRow();
-					int endRow = endPosition.getRank().getRow();
+					int startRow = piecePosition.getRank().getRow();
+					int endRow = destinationPosition.getRank().getRow();
 					int rowOffset = (endRow - startRow) / Math.abs(endRow - startRow);
 					int row = startRow + rowOffset;
 					
 					// Check that there are no pieces between start and end position
 					while (row != endRow) {
-						Position position = new Position(new Rank(row), startPosition.getFile());
-						Piece piece = pieces.get(position);
-						if (piece != null) {
+						Position position = new Position(new Rank(row), piecePosition.getFile());
+						if (cellAdapter.getPiece(position) != null) {
 							return false;
 						}
 						row += rowOffset;
@@ -79,11 +80,11 @@ public class QueenBehaviour extends PieceBehaviour {
 			}
 			
 			// Diagonal movement
-			else if (endPosition.isDiagonally(startPosition)) {
-				int startRow = startPosition.getRank().getRow();
-				int startColumn = startPosition.getFile().getColumn();
-				int endRow = endPosition.getRank().getRow();
-				int endColumn = endPosition.getFile().getColumn();
+			else if (destinationPosition.isDiagonally(piecePosition)) {
+				int startRow = piecePosition.getRank().getRow();
+				int startColumn = piecePosition.getFile().getColumn();
+				int endRow = destinationPosition.getRank().getRow();
+				int endColumn = destinationPosition.getFile().getColumn();
 				
 				int rowOffset = (endRow - startRow) / Math.abs(endRow - startRow);
 				int columnOffset = (endColumn - startColumn) / Math.abs(endColumn - startColumn);
@@ -94,8 +95,7 @@ public class QueenBehaviour extends PieceBehaviour {
 				// Check that there are no pieces between start and end position
 				while (row != endRow && column != endColumn) {
 					Position position = new Position(new Rank(row), new File(column));
-					Piece piece = pieces.get(position);
-					if (piece != null) {
+					if (cellAdapter.getPiece(position) != null) {
 						return false;
 					}
 					row += rowOffset;
