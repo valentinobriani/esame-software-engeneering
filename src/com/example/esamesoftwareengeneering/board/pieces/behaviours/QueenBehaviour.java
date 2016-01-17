@@ -12,8 +12,8 @@ import com.example.esamesoftwareengeneering.board.position.Rank;
 public class QueenBehaviour extends PieceBehaviour {
 	
 	
-	public QueenBehaviour(Color color) {
-		super(color, Type.QUEEN);
+	public QueenBehaviour(Pieces pieces, Color color) {
+		super(pieces, color, Type.QUEEN);
 	}
 	
 	@Override
@@ -26,7 +26,7 @@ public class QueenBehaviour extends PieceBehaviour {
 	}
 	
 	@Override
-	public boolean isMovementValid(Pieces pieces, Piece piece, Position destinationPosition) {
+	public boolean isMovementValid(Piece piece, Position destinationPosition) {
 		// Get the piece position
 		Position piecePosition = pieces.getPiecePosition(piece);
 		

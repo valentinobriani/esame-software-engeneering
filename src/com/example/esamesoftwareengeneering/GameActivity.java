@@ -2,6 +2,7 @@ package com.example.esamesoftwareengeneering;
 
 import java.util.Map;
 
+import com.example.esamesoftwareengeneering.Game.State;
 import com.example.esamesoftwareengeneering.board.Board;
 import com.example.esamesoftwareengeneering.board.CellAdapter;
 import com.example.esamesoftwareengeneering.board.cells.Square;
@@ -32,12 +33,14 @@ import android.widget.Toast;
 
 public class GameActivity extends /*ActionBar*/Activity {
 		
-	private TextView turnTextView;
+	private TextView labelTextView;
 	private Board board;
 	private Button confirmMoveButton;
+	private Button playAgainButton;
 	private CellAdapter cellAdapter;
 	
-	private PieceBehaviour.Color turn;
+	private Game game;
+	
 	private Position selectedPiecePosition;
 	private Position selectedDestinationPosition;
 	
@@ -48,47 +51,45 @@ public class GameActivity extends /*ActionBar*/Activity {
 		setContentView(R.layout.activity_game);
 		
 		// Initialize variables
-		turnTextView = (TextView) findViewById(R.id.textView_turn);
+		labelTextView = (TextView) findViewById(R.id.textView_label);
 		board = (Board) findViewById(R.id.board);
-		cellAdapter = new CellAdapter(this);
 		confirmMoveButton = (Button) findViewById(R.id.button_confirm_move);
+		playAgainButton = (Button) findViewById(R.id.button_play_again);
+		cellAdapter = new CellAdapter(this);
+		board.setAdapter(cellAdapter);
 		
-		turn = PieceBehaviour.Color.WHITE;
+		game = new Game(this, labelTextView, cellAdapter, playAgainButton);
+		
+		//turn = PieceBehaviour.Color.WHITE;
 		selectedPiecePosition = null;
 		selectedDestinationPosition = null;
 		
-		turnTextView.setText("Turn: " + turn.toString());
+		//labelTextView.setText("Turn: " + turn.toString());
 		
-		board.setAdapter(cellAdapter);
 		
 		// Set the listener for the cells of the board
 		board.setOnItemClickListener(new OnItemClickListener() {
 	        public void onItemClick(AdapterView<?> parent, View view, int viewPosition, long id) {
-	            
-	        	// If the clicked view is a square (it can also be a label)
-	            if (view instanceof Square) {	            	
+	            // If the game state is playing and the clicked view is a square (it can also be a label)
+	            if (game.getState() == State.PLAYING && view instanceof Square) {            	
 	            	Square clickedSquare = (Square) view;
 	            	Position clickedPosition = clickedSquare.getPosition();
             		Piece clickedPiece = cellAdapter.getPieces().getPiece(clickedPosition);
             		
             		// If there is no piece selected
 	            	if (selectedPiecePosition == null) {
-	            		
 	            		// Select the clicked piece if it is of the player
-	            		if (clickedPiece != null && clickedPiece.getColor() == turn) {
+	            		if (clickedPiece != null && clickedPiece.getColor() == game.getTurn()) {
 		            		selectedPiecePosition = clickedPosition;
 		            		clickedSquare.setSelection(Selection.PIECE);
 	            		}
-	            	
 	            	}
 	            	
 	            	// If there is already a piece selected
 	            	else {
-	            		
 	            		// If in the clicked position there is a piece of the player
-	            		if (clickedPiece != null && clickedPiece.getColor() == turn) {
-
-            				// Unselect previous selected piece
+	            		if (clickedPiece != null && clickedPiece.getColor() == game.getTurn()) {
+	            			// Unselect previous selected piece
 	            			if (selectedPiecePosition != null) {
 	            				cellAdapter.getSquare(selectedPiecePosition).setSelection(Selection.NONE);
 	            				selectedPiecePosition = null;
@@ -103,12 +104,10 @@ public class GameActivity extends /*ActionBar*/Activity {
 	            			// Select the clicked piece
 		            		selectedPiecePosition = clickedPosition;
 		            		clickedSquare.setSelection(Selection.PIECE);
-	            			
 	            		}
 	            		
 	            		// If in the clicked position there is no piece or there is a piece of the opposing player
 	            		else {
-
             				// Unselect previous selected destination
 	            			if (selectedDestinationPosition != null) {
 	            				cellAdapter.getSquare(selectedDestinationPosition).setSelection(Selection.NONE);
@@ -120,7 +119,7 @@ public class GameActivity extends /*ActionBar*/Activity {
 	            			
 	            			// Select the clicked destination if the selected piece can move to the destination position
 	            			if (selectedPiece != null &&
-	            					selectedPiece.isMoveValid(cellAdapter.getPieces(), clickedPosition)) {
+	            					selectedPiece.isMoveValid(clickedPosition)) {
 		            			selectedDestinationPosition = clickedPosition;
 			            		clickedSquare.setSelection(Selection.DESTINATION);	            				
 	            			}
@@ -131,7 +130,7 @@ public class GameActivity extends /*ActionBar*/Activity {
 	            	if (selectedPiecePosition != null && selectedDestinationPosition != null) {
 	            		confirmMoveButton.setVisibility(View.VISIBLE);
 	            	} else {
-	            		confirmMoveButton.setVisibility(View.INVISIBLE);
+	            		confirmMoveButton.setVisibility(View.GONE);
 	            	}
 	            }
 	            
@@ -141,8 +140,20 @@ public class GameActivity extends /*ActionBar*/Activity {
 		// Set the listener for the confirm move button
 		confirmMoveButton.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View v) {
+			public void onClick(View view) {
 				moveSelectedPiece();
+			}
+		});
+		
+		// Set the listener for the play again button
+		playAgainButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				// Restart the game
+				game.restart();
+				
+				// Hide the play again button
+				view.setVisibility(View.GONE);
 			}
 		});
 	}
@@ -152,26 +163,32 @@ public class GameActivity extends /*ActionBar*/Activity {
 		Piece selectedPiece = pieces.get(selectedPiecePosition);
 		
 		if (selectedPiece != null) {
-			// Check for pawn promotion
-			if (selectedPiece.getType() == PieceBehaviour.Type.PAWN) {
-				if ((selectedPiece.getColor() == PieceBehaviour.Color.WHITE &&
-						selectedDestinationPosition.getRank().getRow() == Board.FIRST_RANK_ROW) ||
-						(selectedPiece.getColor() == PieceBehaviour.Color.BLACK &&
-						selectedDestinationPosition.getRank().getRow() == Board.LAST_RANK_ROW)) {
-					showPromotionDialog(selectedDestinationPosition, selectedPiece);
-				}
+			// Move the piece
+			selectedPiece.move(selectedDestinationPosition);
+			
+			// If a pawn reaches its eighth rank
+			if (selectedPiece.getType() == PieceBehaviour.Type.PAWN &&
+					((selectedPiece.getColor() == PieceBehaviour.Color.WHITE &&
+					selectedDestinationPosition.getRank().getRow() == Board.FIRST_RANK_ROW) ||
+					(selectedPiece.getColor() == PieceBehaviour.Color.BLACK &&
+					selectedDestinationPosition.getRank().getRow() == Board.LAST_RANK_ROW))) {
+				// Promote the piece
+				showPromotionDialog(selectedDestinationPosition, selectedPiece);
 			}
 			
+			// Else, change the turn
+			else {
+				game.changeTurn();
+			}
+			
+			/*
 			// Update chessboard
-			/*pieces.remove(selectedPiecePosition);
-			pieces.put(selectedDestinationPosition, selectedPiece);*/
-			selectedPiece.move(cellAdapter.getPieces(), selectedDestinationPosition);
+			selectedPiece.move(selectedDestinationPosition);
 			cellAdapter.notifyDataSetChanged();
 			
 			// Update turn
 			turn = turn == PieceBehaviour.Color.WHITE ? PieceBehaviour.Color.BLACK : PieceBehaviour.Color.WHITE;
-			
-			turnTextView.setText("Turn: " + turn.toString());
+			labelTextView.setText("Turn: " + turn.toString());*/
 			
 			// Unselect previous selected piece
 			if (selectedPiecePosition != null) {
@@ -186,7 +203,7 @@ public class GameActivity extends /*ActionBar*/Activity {
 			}
 			
 			// Hide the confirm move button
-			confirmMoveButton.setVisibility(View.INVISIBLE);
+			confirmMoveButton.setVisibility(View.GONE);
 		}
 	}
 	
@@ -225,13 +242,16 @@ public class GameActivity extends /*ActionBar*/Activity {
 					// Promote the piece
 					piece.promote(promotionOptions[viewPosition]);
 					
-					// Update the views on the chessboard
-					cellAdapter.notifyDataSetChanged();
+					/*// Update the views on the chessboard
+					cellAdapter.notifyDataSetChanged();*/
 					
 					/*Toast.makeText(
 							GameActivity.this,
 							piece.toString() + " at "+ position.toString() + ": promoted",
 							Toast.LENGTH_LONG).show();*/
+					
+					// Change the turn
+					game.changeTurn();
 					
 					// Dismiss the dialog
 					promotionAlertDialog.dismiss();

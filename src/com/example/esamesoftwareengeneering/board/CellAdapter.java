@@ -55,7 +55,7 @@ public class CellAdapter extends BaseAdapter {
 		cells = new HashMap<Position, Cell>();
 				
 		//initPieces();
-		pieces = Pieces.getInitialPieces();
+		//pieces = Pieces.getInitialPieces();
 	}
 	
 	public Map<Position, Cell> getCells() {
@@ -69,6 +69,10 @@ public class CellAdapter extends BaseAdapter {
 	public Square getSquare(Position position) {
 		Cell cell = cells.get(position);
 		return (cell instanceof Square ? (Square) cell : null);
+	}
+	
+	public void setPieces(Pieces pieces) {
+		this.pieces = pieces;
 	}
 	
 	public Pieces getPieces() {
@@ -220,8 +224,9 @@ public class CellAdapter extends BaseAdapter {
 			} else {
 				pieceImageView.setVisibility(View.INVISIBLE);
 			}*/
-			Piece piece = pieces.getPiece(position);
-			if (piece != null) {
+			
+			if (pieces != null && pieces.getPiece(position) != null) {
+				Piece piece = pieces.getPiece(position);
 				pieceImageView.setImageResource(piece.getResourceId());
 				pieceImageView.setVisibility(View.VISIBLE);
 			} else {

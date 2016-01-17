@@ -13,8 +13,8 @@ import com.example.esamesoftwareengeneering.board.position.Position;
 public class KingBehaviour extends PieceBehaviour {
 	
 	
-	public KingBehaviour(Color color) {
-		super(color, Type.KING);
+	public KingBehaviour(Pieces pieces, Color color) {
+		super(pieces, color, Type.KING);
 	}
 	
 	@Override
@@ -27,7 +27,7 @@ public class KingBehaviour extends PieceBehaviour {
 	}
 	
 	@Override
-	public boolean isMovementValid(Pieces pieces, Piece piece, Position destinationPosition) {
+	public boolean isMovementValid(Piece piece, Position destinationPosition) {
 		// Get the piece position
 		Position piecePosition = pieces.getPiecePosition(piece);
 		
@@ -54,7 +54,7 @@ public class KingBehaviour extends PieceBehaviour {
 	}
 	
 	@Override
-	public boolean isInCheck(Pieces pieces, Piece piece) {
+	public boolean isInCheck(Piece piece) {
 		Position piecePosition = pieces.getPiecePosition(piece);
 		
 		List<Piece> opposingPlayerPieces = pieces.getPieces(color.other());
@@ -65,7 +65,7 @@ public class KingBehaviour extends PieceBehaviour {
 			Piece opposingPlayerPiece = opposingPlayerPieceIterator.next();
 			
 			// If the opposing player's piece can move to king's position, the king is in check
-			if (opposingPlayerPiece.isMovementValid(pieces, piecePosition)) {
+			if (opposingPlayerPiece.isMovementValid(piecePosition)) {
 				Log.i("King", "King is in check");
 				return true;
 			}

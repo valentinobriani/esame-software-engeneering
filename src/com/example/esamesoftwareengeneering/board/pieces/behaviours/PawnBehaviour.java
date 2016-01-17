@@ -17,8 +17,8 @@ import com.example.esamesoftwareengeneering.exceptions.InvalidOperationException
 public class PawnBehaviour extends PieceBehaviour {
 	
 	
-	public PawnBehaviour(Color color) {
-		super(color, Type.PAWN);
+	public PawnBehaviour(Pieces pieces, Color color) {
+		super(pieces, color, Type.PAWN);
 	}
 	
 	@Override
@@ -41,7 +41,7 @@ public class PawnBehaviour extends PieceBehaviour {
 	}
 	
 	@Override
-	public boolean isMovementValid(Pieces pieces, Piece piece, Position destinationPosition) {
+	public boolean isMovementValid(Piece piece, Position destinationPosition) {
 		// Get the piece position
 		Position piecePosition = pieces.getPiecePosition(piece);
 		
@@ -69,16 +69,16 @@ public class PawnBehaviour extends PieceBehaviour {
 	public void promote(Piece piece, Type newType) {
 		switch (newType) {
 		case QUEEN:
-			piece.setPieceBehaviour(new QueenBehaviour(this.color));
+			piece.setPieceBehaviour(new QueenBehaviour(this.pieces, this.color));
 			break;
 		case BISHOP:
-			piece.setPieceBehaviour(new BishopBehaviour(this.color));
+			piece.setPieceBehaviour(new BishopBehaviour(this.pieces, this.color));
 			break;
 		case KNIGHT:
-			piece.setPieceBehaviour(new KnightBehaviour(this.color));
+			piece.setPieceBehaviour(new KnightBehaviour(this.pieces, this.color));
 			break;
 		case ROOK:
-			piece.setPieceBehaviour(new RookBehaviour(this.color));
+			piece.setPieceBehaviour(new RookBehaviour(this.pieces, this.color));
 			break;
 		default:
 			throw new InvalidOperationException("Pawn can't be promoted to " + newType.toString() + "!");

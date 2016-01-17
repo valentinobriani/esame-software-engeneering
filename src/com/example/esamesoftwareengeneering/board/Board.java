@@ -2,6 +2,7 @@ package com.example.esamesoftwareengeneering.board;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.ViewGroup;
 import android.widget.GridLayout;
 import android.widget.GridView;
 
@@ -19,22 +20,19 @@ public class Board extends GridView {
 	public final static int LAST_RANK_ROW = ROWS - (LABEL_ROWS / 2) - 1;
 	public final static int FIRST_FILE_COLUMN = LABEL_COLUMNS / 2;
 	public final static int LAST_FILE_COLUMN = COLUMNS - (LABEL_COLUMNS / 2) - 1;
-	//private Square[][] squares;
 	
 	
 	public Board(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		// TODO Auto-generated constructor stub
-		
-		/*squares = new Square[ROWS][COLUMNS];
-		for (int row = 0; row < ROWS; row++) {
-			for (int column = 0; column < COLUMNS; column++) {
-				Square.Color color = ((row * COLUMNS + column) % 2 == 1 ? Square.Color.BLACK : Square.Color.WHITE);
-				squares[row][column] = new Square(context, attrs, row + 1, column + 1, color);
-				//this.addView(squares[row][column]);
-			}
-		}*/
-		
 	}
+	
+	/**
+	 * Make the gridview always exanded, in order to show all the rows 
+	 */
+	@Override
+    public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(MEASURED_SIZE_MASK, MeasureSpec.AT_MOST));
+        getLayoutParams().height = getMeasuredHeight();
+    }
 
 }

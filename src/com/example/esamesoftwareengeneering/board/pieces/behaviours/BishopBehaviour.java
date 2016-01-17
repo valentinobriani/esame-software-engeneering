@@ -10,8 +10,8 @@ import com.example.esamesoftwareengeneering.board.position.Rank;
 public class BishopBehaviour extends PieceBehaviour {
 	
 	
-	public BishopBehaviour(Color color) {
-		super(color, Type.BISHOP);
+	public BishopBehaviour(Pieces pieces, Color color) {
+		super(pieces, color, Type.BISHOP);
 	}
 
 	@Override
@@ -24,7 +24,7 @@ public class BishopBehaviour extends PieceBehaviour {
 	}
 
 	@Override
-	public boolean isMovementValid(Pieces pieces, Piece piece, Position destinationPosition) {
+	public boolean isMovementValid(Piece piece, Position destinationPosition) {
 		// Get the piece position
 		Position piecePosition = pieces.getPiecePosition(piece);
 		

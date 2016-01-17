@@ -59,13 +59,13 @@ public abstract class PieceBehaviour {
 			}
 		}
 	};
-	//protected final CellAdapter cellAdapter;
+	protected final Pieces pieces;
 	protected final Color color;
 	protected final Type type;
 	
 	
-	public PieceBehaviour(Color color, Type type) {
-		//this.cellAdapter = cellAdapter;
+	public PieceBehaviour(Pieces pieces, Color color, Type type) {
+		this.pieces = pieces;
 		this.color = color;
 		this.type = type;
 	}
@@ -84,14 +84,18 @@ public abstract class PieceBehaviour {
 	
 	public abstract int getResourceId();
 	
-	public boolean hasValidMoves(Pieces pieces, Piece piece) {
+	public boolean hasValidMoves(Piece piece) {
 		boolean validMoves = false;
+		
+		// For each position on the board
 		for (int row = Board.FIRST_RANK_ROW; !validMoves && row <= Board.LAST_RANK_ROW; ++row) {
 			for (int column = Board.FIRST_FILE_COLUMN; !validMoves && column <= Board.LAST_FILE_COLUMN; ++column) {
 				Position destinationPosition = new Position(
 						new Rank(row),
 						new File(column));
-				validMoves = isMoveValid(pieces, piece, destinationPosition);
+				
+				// If the piece can move to a position, it has valid moves
+				validMoves = isMoveValid(piece, destinationPosition);
 			}
 		}
 		return validMoves;
@@ -99,22 +103,21 @@ public abstract class PieceBehaviour {
 	
 	/**
 	 * Check that the movement is valid for this piece
-	 * @param pieces
 	 * @param piece
 	 * @param destinationPosition
 	 * @return
 	 */
-	public abstract boolean isMovementValid(Pieces pieces, Piece piece, Position destinationPosition);
+	public abstract boolean isMovementValid(Piece piece, Position destinationPosition);
 	
 	/**
 	 * Check that the movement is valid for this piece and that the move don't leave the player's king in check
-	 * @param pieces
 	 * @param piece
 	 * @param destinationPosition
 	 * @return
 	 */
-	public boolean isMoveValid(Pieces pieces, Piece piece, Position destinationPosition) {
-		if (isMovementValid(pieces, piece, destinationPosition)) {
+	public boolean isMoveValid(Piece piece, Position destinationPosition) {
+		// If the movement is valid
+		if (isMovementValid(piece, destinationPosition)) {
 			Position initialPosition = pieces.getPiecePosition(piece);
 			Piece destinationPositionPiece = pieces.getPiece(destinationPosition);
 			
@@ -122,31 +125,41 @@ public abstract class PieceBehaviour {
 			pieces.getPieces().put(destinationPosition, piece);
 			pieces.getPieces().remove(initialPosition);
 			
+			// Check that the king will be in check
 			Piece king = pieces.getKing(piece.getColor());
-			boolean check = king.isInCheck(pieces);
+			boolean check = king.isInCheck();
 			
+			// Restore the previous state 
 			pieces.getPieces().remove(destinationPosition);
 			pieces.getPieces().put(initialPosition, piece);
 			if (destinationPositionPiece != null) {
 				pieces.getPieces().put(destinationPosition, destinationPositionPiece);
 			}
 			
+			// If the king will be in check, the move is not valid
 			return !check;
 		}
 		
+		// The move is not valid
 		return false;
 	}
 	
-	public boolean isInCheck(Pieces pieces, Piece piece) {
+	public boolean isInCheck(Piece piece) {
 		throw new InvalidOperationException("Default behaviour do not permit to be in check. Only the king can be in check!");
 	}
 	
-	public void move(Pieces pieces, Piece piece, Position destinationPosition) {
-		if (isMoveValid(pieces, piece, destinationPosition)) {
+	public void move(Piece piece, Position destinationPosition) {
+		// If the move is valid
+		if (isMoveValid(piece, destinationPosition)) {
+			
+			// Move the piece
 			Position initialPosition = pieces.getPiecePosition(piece);
 			pieces.getPieces().remove(initialPosition);
 			pieces.getPieces().put(destinationPosition, piece);
-		} else {
+		}
+		
+		// Else, throw an exception
+		else {
 			throw new InvalidOperationException("The move is not valid: check that the move is valid before performing it!");
 		}
 	}

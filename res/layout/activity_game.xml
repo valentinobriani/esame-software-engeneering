@@ -2,9 +2,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center_vertical" >
-    <!-- RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" >
+
+    <!--
+    RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,10 +14,13 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.esamesoftwareengeneering.MainActivity" -->
-    
+    tools:context="com.example.esamesoftwareengeneering.MainActivity"
+    android:gravity="center_vertical"
+    -->
 
-    <!-- <com.example.esamesoftwareengeneering.Board
+
+    <!--
+    <com.example.esamesoftwareengeneering.Board
         android:id="@+id/board1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -52,51 +56,46 @@
     	android:stretchMode="columnWidth"
     	android:gravity="center_horizontal"
     	android:background="#ffffff"
-	/> -->
+	/>
+    -->
 
-
-    <TextView
-        android:id="@+id/textView_turn"
+    <ScrollView
+        android:id="@+id/scrollView1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textAlignment="center"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:layout_height="match_parent" >
 
-    <include
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        layout="@layout/board" />
-    
-
-    <!-- <LinearLayout
-        android:id="@+id/linear_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-         android:orientation="horizontal" >
-
-        <Button
-            android:id="@+id/button1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:text="Button1" />
-
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:text="Button2" />
-
-    </LinearLayout> -->
-    
-    <Button
-            android:id="@+id/button_confirm_move"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/confirm_move"
-            android:visibility="invisible" />
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
 
-<!-- </RelativeLayout> -->
+            <TextView
+                android:id="@+id/textView_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textAlignment="center"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <include
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/board" />
+
+            <Button
+                android:id="@+id/button_confirm_move"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/confirm_move"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/button_play_again"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/play_again"
+                android:visibility="gone" />
+        </LinearLayout>
+    </ScrollView>
+
 </LinearLayout>

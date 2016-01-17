@@ -127,45 +127,46 @@ public class Pieces {
 	}
 	
 	public static Pieces getInitialPieces() {
-		Map<Position, Piece> pieces = new HashMap<Position, Piece>();
+		Map<Position, Piece> positionPiecesMap = new HashMap<Position, Piece>();
+		Pieces pieces = new Pieces(positionPiecesMap);
 		
 		// White pieces
-		pieces.put(new Position('1', 'e'), new Piece(new KingBehaviour(PieceBehaviour.Color.WHITE)));
-		pieces.put(new Position('1', 'd'), new Piece(new QueenBehaviour(PieceBehaviour.Color.WHITE)));
-		pieces.put(new Position('1', 'c'), new Piece(new BishopBehaviour(PieceBehaviour.Color.WHITE)));
-		pieces.put(new Position('1', 'f'), new Piece(new BishopBehaviour(PieceBehaviour.Color.WHITE)));
-		pieces.put(new Position('1', 'b'), new Piece(new KnightBehaviour(PieceBehaviour.Color.WHITE)));
-		pieces.put(new Position('1', 'g'), new Piece(new KnightBehaviour(PieceBehaviour.Color.WHITE)));
-		pieces.put(new Position('1', 'a'), new Piece(new RookBehaviour(PieceBehaviour.Color.WHITE)));
-		pieces.put(new Position('1', 'h'), new Piece(new RookBehaviour(PieceBehaviour.Color.WHITE)));
-		pieces.put(new Position('2', 'a'), new Piece(new PawnBehaviour(PieceBehaviour.Color.WHITE)));
-		pieces.put(new Position('2', 'b'), new Piece(new PawnBehaviour(PieceBehaviour.Color.WHITE)));
-		pieces.put(new Position('2', 'c'), new Piece(new PawnBehaviour(PieceBehaviour.Color.WHITE)));
-		pieces.put(new Position('2', 'd'), new Piece(new PawnBehaviour(PieceBehaviour.Color.WHITE)));
-		pieces.put(new Position('2', 'e'), new Piece(new PawnBehaviour(PieceBehaviour.Color.WHITE)));
-		pieces.put(new Position('2', 'f'), new Piece(new PawnBehaviour(PieceBehaviour.Color.WHITE)));
-		pieces.put(new Position('2', 'g'), new Piece(new PawnBehaviour(PieceBehaviour.Color.WHITE)));
-		pieces.put(new Position('2', 'h'), new Piece(new PawnBehaviour(PieceBehaviour.Color.WHITE)));
+		positionPiecesMap.put(new Position('1', 'e'), new Piece(new KingBehaviour(pieces, PieceBehaviour.Color.WHITE)));
+		positionPiecesMap.put(new Position('1', 'd'), new Piece(new QueenBehaviour(pieces, PieceBehaviour.Color.WHITE)));
+		positionPiecesMap.put(new Position('1', 'c'), new Piece(new BishopBehaviour(pieces, PieceBehaviour.Color.WHITE)));
+		positionPiecesMap.put(new Position('1', 'f'), new Piece(new BishopBehaviour(pieces, PieceBehaviour.Color.WHITE)));
+		positionPiecesMap.put(new Position('1', 'b'), new Piece(new KnightBehaviour(pieces, PieceBehaviour.Color.WHITE)));
+		positionPiecesMap.put(new Position('1', 'g'), new Piece(new KnightBehaviour(pieces, PieceBehaviour.Color.WHITE)));
+		positionPiecesMap.put(new Position('1', 'a'), new Piece(new RookBehaviour(pieces, PieceBehaviour.Color.WHITE)));
+		positionPiecesMap.put(new Position('1', 'h'), new Piece(new RookBehaviour(pieces, PieceBehaviour.Color.WHITE)));
+		positionPiecesMap.put(new Position('2', 'a'), new Piece(new PawnBehaviour(pieces, PieceBehaviour.Color.WHITE)));
+		positionPiecesMap.put(new Position('2', 'b'), new Piece(new PawnBehaviour(pieces, PieceBehaviour.Color.WHITE)));
+		positionPiecesMap.put(new Position('2', 'c'), new Piece(new PawnBehaviour(pieces, PieceBehaviour.Color.WHITE)));
+		positionPiecesMap.put(new Position('2', 'd'), new Piece(new PawnBehaviour(pieces, PieceBehaviour.Color.WHITE)));
+		positionPiecesMap.put(new Position('2', 'e'), new Piece(new PawnBehaviour(pieces, PieceBehaviour.Color.WHITE)));
+		positionPiecesMap.put(new Position('2', 'f'), new Piece(new PawnBehaviour(pieces, PieceBehaviour.Color.WHITE)));
+		positionPiecesMap.put(new Position('2', 'g'), new Piece(new PawnBehaviour(pieces, PieceBehaviour.Color.WHITE)));
+		positionPiecesMap.put(new Position('2', 'h'), new Piece(new PawnBehaviour(pieces, PieceBehaviour.Color.WHITE)));
 		
 		// Black pieces
-		pieces.put(new Position('8', 'e'), new Piece(new KingBehaviour(PieceBehaviour.Color.BLACK)));
-		pieces.put(new Position('8', 'd'), new Piece(new QueenBehaviour(PieceBehaviour.Color.BLACK)));
-		pieces.put(new Position('8', 'c'), new Piece(new BishopBehaviour(PieceBehaviour.Color.BLACK)));
-		pieces.put(new Position('8', 'f'), new Piece(new BishopBehaviour(PieceBehaviour.Color.BLACK)));
-		pieces.put(new Position('8', 'b'), new Piece(new KnightBehaviour(PieceBehaviour.Color.BLACK)));
-		pieces.put(new Position('8', 'g'), new Piece(new KnightBehaviour(PieceBehaviour.Color.BLACK)));
-		pieces.put(new Position('8', 'a'), new Piece(new RookBehaviour(PieceBehaviour.Color.BLACK)));
-		pieces.put(new Position('8', 'h'), new Piece(new RookBehaviour(PieceBehaviour.Color.BLACK)));
-		pieces.put(new Position('7', 'a'), new Piece(new PawnBehaviour(PieceBehaviour.Color.BLACK)));
-		pieces.put(new Position('7', 'b'), new Piece(new PawnBehaviour(PieceBehaviour.Color.BLACK)));
-		pieces.put(new Position('7', 'c'), new Piece(new PawnBehaviour(PieceBehaviour.Color.BLACK)));
-		pieces.put(new Position('7', 'd'), new Piece(new PawnBehaviour(PieceBehaviour.Color.BLACK)));
-		pieces.put(new Position('7', 'e'), new Piece(new PawnBehaviour(PieceBehaviour.Color.BLACK)));
-		pieces.put(new Position('7', 'f'), new Piece(new PawnBehaviour(PieceBehaviour.Color.BLACK)));
-		pieces.put(new Position('7', 'g'), new Piece(new PawnBehaviour(PieceBehaviour.Color.BLACK)));
-		pieces.put(new Position('7', 'h'), new Piece(new PawnBehaviour(PieceBehaviour.Color.BLACK)));
+		positionPiecesMap.put(new Position('8', 'e'), new Piece(new KingBehaviour(pieces, PieceBehaviour.Color.BLACK)));
+		positionPiecesMap.put(new Position('8', 'd'), new Piece(new QueenBehaviour(pieces, PieceBehaviour.Color.BLACK)));
+		positionPiecesMap.put(new Position('8', 'c'), new Piece(new BishopBehaviour(pieces, PieceBehaviour.Color.BLACK)));
+		positionPiecesMap.put(new Position('8', 'f'), new Piece(new BishopBehaviour(pieces, PieceBehaviour.Color.BLACK)));
+		positionPiecesMap.put(new Position('8', 'b'), new Piece(new KnightBehaviour(pieces, PieceBehaviour.Color.BLACK)));
+		positionPiecesMap.put(new Position('8', 'g'), new Piece(new KnightBehaviour(pieces, PieceBehaviour.Color.BLACK)));
+		positionPiecesMap.put(new Position('8', 'a'), new Piece(new RookBehaviour(pieces, PieceBehaviour.Color.BLACK)));
+		positionPiecesMap.put(new Position('8', 'h'), new Piece(new RookBehaviour(pieces, PieceBehaviour.Color.BLACK)));
+		positionPiecesMap.put(new Position('7', 'a'), new Piece(new PawnBehaviour(pieces, PieceBehaviour.Color.BLACK)));
+		positionPiecesMap.put(new Position('7', 'b'), new Piece(new PawnBehaviour(pieces, PieceBehaviour.Color.BLACK)));
+		positionPiecesMap.put(new Position('7', 'c'), new Piece(new PawnBehaviour(pieces, PieceBehaviour.Color.BLACK)));
+		positionPiecesMap.put(new Position('7', 'd'), new Piece(new PawnBehaviour(pieces, PieceBehaviour.Color.BLACK)));
+		positionPiecesMap.put(new Position('7', 'e'), new Piece(new PawnBehaviour(pieces, PieceBehaviour.Color.BLACK)));
+		positionPiecesMap.put(new Position('7', 'f'), new Piece(new PawnBehaviour(pieces, PieceBehaviour.Color.BLACK)));
+		positionPiecesMap.put(new Position('7', 'g'), new Piece(new PawnBehaviour(pieces, PieceBehaviour.Color.BLACK)));
+		positionPiecesMap.put(new Position('7', 'h'), new Piece(new PawnBehaviour(pieces, PieceBehaviour.Color.BLACK)));
 		
-		return new Pieces(pieces);
+		return pieces;
 	}
 	
 }

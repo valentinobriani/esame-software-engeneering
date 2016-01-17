@@ -2,12 +2,12 @@
 <com.example.esamesoftwareengeneering.board.Board xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/board"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:gravity="center_horizontal"
+    android:isScrollContainer="false"
     android:numColumns="10"
     android:columnWidth="10dp"
-    android:stretchMode="columnWidth"
-    android:choiceMode="multipleChoice" >
+    android:stretchMode="columnWidth" >
     <!-- 
     android:choiceMode="multipleChoice"
     android:listSelector="@drawable/square_selected"

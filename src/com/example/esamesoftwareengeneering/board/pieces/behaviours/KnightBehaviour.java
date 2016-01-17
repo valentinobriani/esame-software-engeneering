@@ -9,8 +9,8 @@ import com.example.esamesoftwareengeneering.board.position.Position;
 public class KnightBehaviour extends PieceBehaviour {
 	
 	
-	public KnightBehaviour(Color color) {
-		super(color, Type.KNIGHT);
+	public KnightBehaviour(Pieces pieces, Color color) {
+		super(pieces, color, Type.KNIGHT);
 	}
 	
 	@Override
@@ -23,7 +23,7 @@ public class KnightBehaviour extends PieceBehaviour {
 	}
 	
 	@Override
-	public boolean isMovementValid(Pieces pieces, Piece piece, Position destinationPosition) {
+	public boolean isMovementValid(Piece piece, Position destinationPosition) {
 		// Get the piece position
 		Position piecePosition = pieces.getPiecePosition(piece);
 		
