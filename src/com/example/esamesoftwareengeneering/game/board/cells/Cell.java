@@ -1,6 +1,6 @@
-package com.example.esamesoftwareengeneering.board.cells;
+package com.example.esamesoftwareengeneering.game.board.cells;
 
-import com.example.esamesoftwareengeneering.board.position.Position;
+import com.example.esamesoftwareengeneering.game.board.position.Position;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -38,7 +38,6 @@ public abstract class Cell extends FrameLayout {
 	}
 
 	public boolean init(Position position) {
-		//Toast.makeText(context, "INIT " + position.toString(), Toast.LENGTH_SHORT).show();
 		Log.i("Cell", "init cell at " + position.toString());
 		
 		if (initialized) {

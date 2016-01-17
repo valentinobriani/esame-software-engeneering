@@ -1,4 +1,4 @@
-package com.example.esamesoftwareengeneering.board.pieces.behaviours;
+package com.example.esamesoftwareengeneering.game.board.pieces.behaviours;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -8,11 +8,11 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.esamesoftwareengeneering.R;
-import com.example.esamesoftwareengeneering.board.pieces.Piece;
-import com.example.esamesoftwareengeneering.board.pieces.Pieces;
-import com.example.esamesoftwareengeneering.board.pieces.behaviours.PieceBehaviour.Type;
-import com.example.esamesoftwareengeneering.board.position.Position;
 import com.example.esamesoftwareengeneering.exceptions.InvalidOperationException;
+import com.example.esamesoftwareengeneering.game.board.pieces.Piece;
+import com.example.esamesoftwareengeneering.game.board.pieces.Pieces;
+import com.example.esamesoftwareengeneering.game.board.pieces.behaviours.PieceBehaviour.Type;
+import com.example.esamesoftwareengeneering.game.board.position.Position;
 
 public class PawnBehaviour extends PieceBehaviour {
 	

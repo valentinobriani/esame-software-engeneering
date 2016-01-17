@@ -1,8 +1,8 @@
-package com.example.esamesoftwareengeneering.board.position;
+package com.example.esamesoftwareengeneering.game.board.position;
 
 import java.util.Objects;
 
-import com.example.esamesoftwareengeneering.board.Board;
+import com.example.esamesoftwareengeneering.game.board.Board;
 
 
 public class Rank {

@@ -1,4 +1,4 @@
-package com.example.esamesoftwareengeneering.board.pieces;
+package com.example.esamesoftwareengeneering.game.board.pieces;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,23 +8,23 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.example.esamesoftwareengeneering.board.pieces.behaviours.BishopBehaviour;
-import com.example.esamesoftwareengeneering.board.pieces.behaviours.KingBehaviour;
-import com.example.esamesoftwareengeneering.board.pieces.behaviours.KnightBehaviour;
-import com.example.esamesoftwareengeneering.board.pieces.behaviours.PawnBehaviour;
-import com.example.esamesoftwareengeneering.board.pieces.behaviours.PieceBehaviour;
-import com.example.esamesoftwareengeneering.board.pieces.behaviours.QueenBehaviour;
-import com.example.esamesoftwareengeneering.board.pieces.behaviours.RookBehaviour;
-import com.example.esamesoftwareengeneering.board.pieces.behaviours.PieceBehaviour.Color;
-import com.example.esamesoftwareengeneering.board.pieces.behaviours.PieceBehaviour.Type;
-import com.example.esamesoftwareengeneering.board.position.Position;
+import com.example.esamesoftwareengeneering.game.board.pieces.behaviours.BishopBehaviour;
+import com.example.esamesoftwareengeneering.game.board.pieces.behaviours.KingBehaviour;
+import com.example.esamesoftwareengeneering.game.board.pieces.behaviours.KnightBehaviour;
+import com.example.esamesoftwareengeneering.game.board.pieces.behaviours.PawnBehaviour;
+import com.example.esamesoftwareengeneering.game.board.pieces.behaviours.PieceBehaviour;
+import com.example.esamesoftwareengeneering.game.board.pieces.behaviours.QueenBehaviour;
+import com.example.esamesoftwareengeneering.game.board.pieces.behaviours.RookBehaviour;
+import com.example.esamesoftwareengeneering.game.board.pieces.behaviours.PieceBehaviour.Color;
+import com.example.esamesoftwareengeneering.game.board.pieces.behaviours.PieceBehaviour.Type;
+import com.example.esamesoftwareengeneering.game.board.position.Position;
 
 public class Pieces {
 	
 	private Map<Position, Piece> pieces;
 	
 	
-	private Pieces(Map<Position, Piece> pieces) {
+	public Pieces(Map<Position, Piece> pieces) {
 		this.pieces = pieces;
 	}
 	

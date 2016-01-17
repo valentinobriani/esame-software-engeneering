@@ -1,21 +1,24 @@
-package com.example.esamesoftwareengeneering;
+package com.example.esamesoftwareengeneering.game;
 
 import java.util.Map;
 
-import com.example.esamesoftwareengeneering.Game.State;
-import com.example.esamesoftwareengeneering.board.Board;
-import com.example.esamesoftwareengeneering.board.CellAdapter;
-import com.example.esamesoftwareengeneering.board.cells.Square;
-import com.example.esamesoftwareengeneering.board.cells.Square.Selection;
-import com.example.esamesoftwareengeneering.board.pieces.Piece;
-import com.example.esamesoftwareengeneering.board.pieces.behaviours.BishopBehaviour;
-import com.example.esamesoftwareengeneering.board.pieces.behaviours.KnightBehaviour;
-import com.example.esamesoftwareengeneering.board.pieces.behaviours.PawnBehaviour;
-import com.example.esamesoftwareengeneering.board.pieces.behaviours.PieceBehaviour;
-import com.example.esamesoftwareengeneering.board.pieces.behaviours.QueenBehaviour;
-import com.example.esamesoftwareengeneering.board.pieces.behaviours.RookBehaviour;
-import com.example.esamesoftwareengeneering.board.pieces.behaviours.PieceBehaviour.Color;
-import com.example.esamesoftwareengeneering.board.position.Position;
+import com.example.esamesoftwareengeneering.R;
+import com.example.esamesoftwareengeneering.R.id;
+import com.example.esamesoftwareengeneering.R.layout;
+import com.example.esamesoftwareengeneering.game.Game.State;
+import com.example.esamesoftwareengeneering.game.board.Board;
+import com.example.esamesoftwareengeneering.game.board.CellAdapter;
+import com.example.esamesoftwareengeneering.game.board.cells.Square;
+import com.example.esamesoftwareengeneering.game.board.cells.Square.Selection;
+import com.example.esamesoftwareengeneering.game.board.pieces.Piece;
+import com.example.esamesoftwareengeneering.game.board.pieces.behaviours.BishopBehaviour;
+import com.example.esamesoftwareengeneering.game.board.pieces.behaviours.KnightBehaviour;
+import com.example.esamesoftwareengeneering.game.board.pieces.behaviours.PawnBehaviour;
+import com.example.esamesoftwareengeneering.game.board.pieces.behaviours.PieceBehaviour;
+import com.example.esamesoftwareengeneering.game.board.pieces.behaviours.QueenBehaviour;
+import com.example.esamesoftwareengeneering.game.board.pieces.behaviours.RookBehaviour;
+import com.example.esamesoftwareengeneering.game.board.pieces.behaviours.PieceBehaviour.Color;
+import com.example.esamesoftwareengeneering.game.board.position.Position;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -31,7 +34,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class GameActivity extends /*ActionBar*/Activity {
+public class GameActivity extends Activity {
 		
 	private TextView labelTextView;
 	private Board board;
@@ -60,12 +63,8 @@ public class GameActivity extends /*ActionBar*/Activity {
 		
 		game = new Game(this, labelTextView, cellAdapter, playAgainButton);
 		
-		//turn = PieceBehaviour.Color.WHITE;
 		selectedPiecePosition = null;
 		selectedDestinationPosition = null;
-		
-		//labelTextView.setText("Turn: " + turn.toString());
-		
 		
 		// Set the listener for the cells of the board
 		board.setOnItemClickListener(new OnItemClickListener() {
@@ -181,15 +180,6 @@ public class GameActivity extends /*ActionBar*/Activity {
 				game.changeTurn();
 			}
 			
-			/*
-			// Update chessboard
-			selectedPiece.move(selectedDestinationPosition);
-			cellAdapter.notifyDataSetChanged();
-			
-			// Update turn
-			turn = turn == PieceBehaviour.Color.WHITE ? PieceBehaviour.Color.BLACK : PieceBehaviour.Color.WHITE;
-			labelTextView.setText("Turn: " + turn.toString());*/
-			
 			// Unselect previous selected piece
 			if (selectedPiecePosition != null) {
 				cellAdapter.getSquare(selectedPiecePosition).setSelection(Selection.NONE);
@@ -241,14 +231,6 @@ public class GameActivity extends /*ActionBar*/Activity {
 						View view, int viewPosition, long id) {
 					// Promote the piece
 					piece.promote(promotionOptions[viewPosition]);
-					
-					/*// Update the views on the chessboard
-					cellAdapter.notifyDataSetChanged();*/
-					
-					/*Toast.makeText(
-							GameActivity.this,
-							piece.toString() + " at "+ position.toString() + ": promoted",
-							Toast.LENGTH_LONG).show();*/
 					
 					// Change the turn
 					game.changeTurn();

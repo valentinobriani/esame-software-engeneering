@@ -1,6 +1,8 @@
 package com.example.esamesoftwareengeneering;
 
 //import android.support.v7.app.ActionBarActivity;
+import com.example.esamesoftwareengeneering.game.GameActivity;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,21 +22,19 @@ public class MainActivity extends Activity {
 		final Button exitButton = (Button) findViewById(R.id.button_exit);
 		
 		playButton.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(MainActivity.this, GameActivity.class);
 				startActivity(intent);
 			}
 		});
+		
 		exitButton.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
 				finish();
 			}
 		});
-		
 	}
 	
 }

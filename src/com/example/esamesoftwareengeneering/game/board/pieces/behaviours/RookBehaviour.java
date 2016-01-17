@@ -1,13 +1,13 @@
-package com.example.esamesoftwareengeneering.board.pieces.behaviours;
+package com.example.esamesoftwareengeneering.game.board.pieces.behaviours;
 
 import android.util.Log;
 
 import com.example.esamesoftwareengeneering.R;
-import com.example.esamesoftwareengeneering.board.pieces.Piece;
-import com.example.esamesoftwareengeneering.board.pieces.Pieces;
-import com.example.esamesoftwareengeneering.board.position.File;
-import com.example.esamesoftwareengeneering.board.position.Position;
-import com.example.esamesoftwareengeneering.board.position.Rank;
+import com.example.esamesoftwareengeneering.game.board.pieces.Piece;
+import com.example.esamesoftwareengeneering.game.board.pieces.Pieces;
+import com.example.esamesoftwareengeneering.game.board.position.File;
+import com.example.esamesoftwareengeneering.game.board.position.Position;
+import com.example.esamesoftwareengeneering.game.board.position.Rank;
 
 public class RookBehaviour extends PieceBehaviour {
 	
@@ -39,6 +39,7 @@ public class RookBehaviour extends PieceBehaviour {
 			int rankDistance = piecePosition.getRank().distance(destinationPosition.getRank());
 			int fileDistance = piecePosition.getFile().distance(destinationPosition.getFile());
 			
+			// Horizontal
 			if (rankDistance == 0) {
 				int startColumn = piecePosition.getFile().getColumn();
 				int endColumn = destinationPosition.getFile().getColumn();
@@ -55,7 +56,10 @@ public class RookBehaviour extends PieceBehaviour {
 				}
 				
 				return true;
-			} else if (fileDistance == 0) {
+			}
+			
+			// Vertical
+			else if (fileDistance == 0) {
 				int startRow = piecePosition.getRank().getRow();
 				int endRow = destinationPosition.getRank().getRow();
 				int rowOffset = (endRow - startRow) / Math.abs(endRow - startRow);

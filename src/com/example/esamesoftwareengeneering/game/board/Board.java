@@ -1,4 +1,4 @@
-package com.example.esamesoftwareengeneering.board;
+package com.example.esamesoftwareengeneering.game.board;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -27,7 +27,7 @@ public class Board extends GridView {
 	}
 	
 	/**
-	 * Make the gridview always exanded, in order to show all the rows 
+	 * Make the gridview always extended, in order to show all the rows 
 	 */
 	@Override
     public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {

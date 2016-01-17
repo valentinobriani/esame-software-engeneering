@@ -1,14 +1,14 @@
-package com.example.esamesoftwareengeneering.board.pieces.behaviours;
+package com.example.esamesoftwareengeneering.game.board.pieces.behaviours;
 
 import android.util.Log;
 
-import com.example.esamesoftwareengeneering.board.Board;
-import com.example.esamesoftwareengeneering.board.pieces.Piece;
-import com.example.esamesoftwareengeneering.board.pieces.Pieces;
-import com.example.esamesoftwareengeneering.board.position.File;
-import com.example.esamesoftwareengeneering.board.position.Position;
-import com.example.esamesoftwareengeneering.board.position.Rank;
 import com.example.esamesoftwareengeneering.exceptions.InvalidOperationException;
+import com.example.esamesoftwareengeneering.game.board.Board;
+import com.example.esamesoftwareengeneering.game.board.pieces.Piece;
+import com.example.esamesoftwareengeneering.game.board.pieces.Pieces;
+import com.example.esamesoftwareengeneering.game.board.position.File;
+import com.example.esamesoftwareengeneering.game.board.position.Position;
+import com.example.esamesoftwareengeneering.game.board.position.Rank;
 
 public abstract class PieceBehaviour {
 	

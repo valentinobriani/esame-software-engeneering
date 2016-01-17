@@ -1,4 +1,4 @@
-package com.example.esamesoftwareengeneering;
+package com.example.esamesoftwareengeneering.game;
 
 import java.util.Iterator;
 import java.util.List;
@@ -9,10 +9,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.esamesoftwareengeneering.board.CellAdapter;
-import com.example.esamesoftwareengeneering.board.pieces.Piece;
-import com.example.esamesoftwareengeneering.board.pieces.Pieces;
-import com.example.esamesoftwareengeneering.board.pieces.behaviours.PieceBehaviour.Color;
+import com.example.esamesoftwareengeneering.game.board.CellAdapter;
+import com.example.esamesoftwareengeneering.game.board.pieces.Piece;
+import com.example.esamesoftwareengeneering.game.board.pieces.Pieces;
+import com.example.esamesoftwareengeneering.game.board.pieces.behaviours.PieceBehaviour.Color;
 
 public class Game {
 	
@@ -102,13 +102,12 @@ public class Game {
 		state = State.START;
 		cellAdapter.setPieces(Pieces.getInitialPieces());
 		cellAdapter.notifyDataSetChanged();
-		
 		play();
-		setTurn(Color.WHITE);
 	}
 	
 	private void play() {
 		state = State.PLAYING;
+		setTurn(Color.WHITE);
 	}
 	
 	private void end(String endgameMessage) {
