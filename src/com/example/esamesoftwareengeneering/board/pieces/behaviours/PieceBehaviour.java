@@ -3,8 +3,8 @@ package com.example.esamesoftwareengeneering.board.pieces.behaviours;
 import android.util.Log;
 
 import com.example.esamesoftwareengeneering.board.Board;
-import com.example.esamesoftwareengeneering.board.CellAdapter;
 import com.example.esamesoftwareengeneering.board.pieces.Piece;
+import com.example.esamesoftwareengeneering.board.pieces.Pieces;
 import com.example.esamesoftwareengeneering.board.position.File;
 import com.example.esamesoftwareengeneering.board.position.Position;
 import com.example.esamesoftwareengeneering.board.position.Rank;
@@ -59,13 +59,13 @@ public abstract class PieceBehaviour {
 			}
 		}
 	};
-	protected final CellAdapter cellAdapter;
+	//protected final CellAdapter cellAdapter;
 	protected final Color color;
 	protected final Type type;
 	
 	
-	public PieceBehaviour(CellAdapter cellAdapter, Color color, Type type) {
-		this.cellAdapter = cellAdapter;
+	public PieceBehaviour(Color color, Type type) {
+		//this.cellAdapter = cellAdapter;
 		this.color = color;
 		this.type = type;
 	}
@@ -84,23 +84,71 @@ public abstract class PieceBehaviour {
 	
 	public abstract int getResourceId();
 	
-	public boolean hasValidMoves(Piece piece) {
+	public boolean hasValidMoves(Pieces pieces, Piece piece) {
 		boolean validMoves = false;
 		for (int row = Board.FIRST_RANK_ROW; !validMoves && row <= Board.LAST_RANK_ROW; ++row) {
 			for (int column = Board.FIRST_FILE_COLUMN; !validMoves && column <= Board.LAST_FILE_COLUMN; ++column) {
 				Position destinationPosition = new Position(
 						new Rank(row),
 						new File(column));
-				validMoves = isMoveValid(piece, destinationPosition);
+				validMoves = isMoveValid(pieces, piece, destinationPosition);
 			}
 		}
 		return validMoves;
 	}
 	
-	public abstract boolean isMoveValid(Piece piece, Position destinationPosition);
+	/**
+	 * Check that the movement is valid for this piece
+	 * @param pieces
+	 * @param piece
+	 * @param destinationPosition
+	 * @return
+	 */
+	public abstract boolean isMovementValid(Pieces pieces, Piece piece, Position destinationPosition);
 	
-	public boolean isInCheck(Piece piece) {
+	/**
+	 * Check that the movement is valid for this piece and that the move don't leave the player's king in check
+	 * @param pieces
+	 * @param piece
+	 * @param destinationPosition
+	 * @return
+	 */
+	public boolean isMoveValid(Pieces pieces, Piece piece, Position destinationPosition) {
+		if (isMovementValid(pieces, piece, destinationPosition)) {
+			Position initialPosition = pieces.getPiecePosition(piece);
+			Piece destinationPositionPiece = pieces.getPiece(destinationPosition);
+			
+			// Simulate the move
+			pieces.getPieces().put(destinationPosition, piece);
+			pieces.getPieces().remove(initialPosition);
+			
+			Piece king = pieces.getKing(piece.getColor());
+			boolean check = king.isInCheck(pieces);
+			
+			pieces.getPieces().remove(destinationPosition);
+			pieces.getPieces().put(initialPosition, piece);
+			if (destinationPositionPiece != null) {
+				pieces.getPieces().put(destinationPosition, destinationPositionPiece);
+			}
+			
+			return !check;
+		}
+		
+		return false;
+	}
+	
+	public boolean isInCheck(Pieces pieces, Piece piece) {
 		throw new InvalidOperationException("Default behaviour do not permit to be in check. Only the king can be in check!");
+	}
+	
+	public void move(Pieces pieces, Piece piece, Position destinationPosition) {
+		if (isMoveValid(pieces, piece, destinationPosition)) {
+			Position initialPosition = pieces.getPiecePosition(piece);
+			pieces.getPieces().remove(initialPosition);
+			pieces.getPieces().put(destinationPosition, piece);
+		} else {
+			throw new InvalidOperationException("The move is not valid: check that the move is valid before performing it!");
+		}
 	}
 	
 	public void promote(Piece piece, Type newType) {

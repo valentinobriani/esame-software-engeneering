@@ -3,8 +3,8 @@ package com.example.esamesoftwareengeneering.board.pieces.behaviours;
 import android.util.Log;
 
 import com.example.esamesoftwareengeneering.R;
-import com.example.esamesoftwareengeneering.board.CellAdapter;
 import com.example.esamesoftwareengeneering.board.pieces.Piece;
+import com.example.esamesoftwareengeneering.board.pieces.Pieces;
 import com.example.esamesoftwareengeneering.board.position.File;
 import com.example.esamesoftwareengeneering.board.position.Position;
 import com.example.esamesoftwareengeneering.board.position.Rank;
@@ -12,8 +12,8 @@ import com.example.esamesoftwareengeneering.board.position.Rank;
 public class RookBehaviour extends PieceBehaviour {
 	
 	
-	public RookBehaviour(CellAdapter cellAdapter, Color color) {
-		super(cellAdapter, color, Type.ROOK);
+	public RookBehaviour(Color color) {
+		super(color, Type.ROOK);
 	}
 	
 	@Override
@@ -26,15 +26,15 @@ public class RookBehaviour extends PieceBehaviour {
 	}
 	
 	@Override
-	public boolean isMoveValid(Piece piece, Position destinationPosition) {
+	public boolean isMovementValid(Pieces pieces, Piece piece, Position destinationPosition) {
 		// Get the piece position
-		Position piecePosition = cellAdapter.getPiecePosition(piece);
+		Position piecePosition = pieces.getPiecePosition(piece);
 		
 		// Get the destination position's piece
-		Piece destinationPositionPiece = cellAdapter.getPiece(destinationPosition);
+		Piece destinationPositionPiece = pieces.getPiece(destinationPosition);
 		
 		// Movement / Capture
-		if ((destinationPositionPiece == null || (destinationPositionPiece.getColor() != this.color && destinationPositionPiece.getType() != Type.KING)) &&
+		if ((destinationPositionPiece == null || (destinationPositionPiece.getColor() != this.color/* && destinationPositionPiece.getType() != Type.KING*/)) &&
 				destinationPosition.isPerpendicular(piecePosition)) {
 			int rankDistance = piecePosition.getRank().distance(destinationPosition.getRank());
 			int fileDistance = piecePosition.getFile().distance(destinationPosition.getFile());
@@ -48,7 +48,7 @@ public class RookBehaviour extends PieceBehaviour {
 				// Check that there are no pieces between start and end position
 				while (column != endColumn) {
 					Position position = new Position(piecePosition.getRank(), new File(column));
-					if (cellAdapter.getPiece(position) != null) {
+					if (pieces.getPiece(position) != null) {
 						return false;
 					}
 					column += columnOffset;
@@ -64,7 +64,7 @@ public class RookBehaviour extends PieceBehaviour {
 				// Check that there are no pieces between start and end position
 				while (row != endRow) {
 					Position position = new Position(new Rank(row), piecePosition.getFile());
-					if (cellAdapter.getPiece(position) != null) {
+					if (pieces.getPiece(position) != null) {
 						return false;
 					}
 					row += rowOffset;

@@ -8,8 +8,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.esamesoftwareengeneering.R;
-import com.example.esamesoftwareengeneering.board.CellAdapter;
 import com.example.esamesoftwareengeneering.board.pieces.Piece;
+import com.example.esamesoftwareengeneering.board.pieces.Pieces;
 import com.example.esamesoftwareengeneering.board.pieces.behaviours.PieceBehaviour.Type;
 import com.example.esamesoftwareengeneering.board.position.Position;
 import com.example.esamesoftwareengeneering.exceptions.InvalidOperationException;
@@ -17,8 +17,8 @@ import com.example.esamesoftwareengeneering.exceptions.InvalidOperationException
 public class PawnBehaviour extends PieceBehaviour {
 	
 	
-	public PawnBehaviour(CellAdapter cellAdapter, Color color) {
-		super(cellAdapter, color, Type.PAWN);
+	public PawnBehaviour(Color color) {
+		super(color, Type.PAWN);
 	}
 	
 	@Override
@@ -41,12 +41,12 @@ public class PawnBehaviour extends PieceBehaviour {
 	}
 	
 	@Override
-	public boolean isMoveValid(Piece piece, Position destinationPosition) {
+	public boolean isMovementValid(Pieces pieces, Piece piece, Position destinationPosition) {
 		// Get the piece position
-		Position piecePosition = cellAdapter.getPiecePosition(piece);
+		Position piecePosition = pieces.getPiecePosition(piece);
 		
 		// Get the destination position's piece
-		Piece destinationPositionPiece = cellAdapter.getPiece(destinationPosition);
+		Piece destinationPositionPiece = pieces.getPiece(destinationPosition);
 		
 		// Movement
 		if (destinationPositionPiece == null &&
@@ -56,7 +56,7 @@ public class PawnBehaviour extends PieceBehaviour {
 		}
 		
 		// Capture
-		if (destinationPositionPiece != null && destinationPositionPiece.getColor() != this.color && destinationPositionPiece.getType() != Type.KING &&
+		if (destinationPositionPiece != null && destinationPositionPiece.getColor() != this.color/* && destinationPositionPiece.getType() != Type.KING*/ &&
 				piecePosition.getFile().distance(destinationPosition.getFile()) == 1 &&
 				destinationPosition.getRank().getRow() == piecePosition.getRank().getRow() + (this.color == Color.WHITE ? -1 : 1)) {
 			return true;
@@ -69,16 +69,16 @@ public class PawnBehaviour extends PieceBehaviour {
 	public void promote(Piece piece, Type newType) {
 		switch (newType) {
 		case QUEEN:
-			piece.setPieceBehaviour(new QueenBehaviour(this.cellAdapter, this.color));
+			piece.setPieceBehaviour(new QueenBehaviour(this.color));
 			break;
 		case BISHOP:
-			piece.setPieceBehaviour(new BishopBehaviour(this.cellAdapter, this.color));
+			piece.setPieceBehaviour(new BishopBehaviour(this.color));
 			break;
 		case KNIGHT:
-			piece.setPieceBehaviour(new KnightBehaviour(this.cellAdapter, this.color));
+			piece.setPieceBehaviour(new KnightBehaviour(this.color));
 			break;
 		case ROOK:
-			piece.setPieceBehaviour(new RookBehaviour(this.cellAdapter, this.color));
+			piece.setPieceBehaviour(new RookBehaviour(this.color));
 			break;
 		default:
 			throw new InvalidOperationException("Pawn can't be promoted to " + newType.toString() + "!");

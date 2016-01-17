@@ -69,7 +69,7 @@ public class GameActivity extends /*ActionBar*/Activity {
 	            if (view instanceof Square) {	            	
 	            	Square clickedSquare = (Square) view;
 	            	Position clickedPosition = clickedSquare.getPosition();
-            		Piece clickedPiece = cellAdapter.getPiece(clickedPosition);
+            		Piece clickedPiece = cellAdapter.getPieces().getPiece(clickedPosition);
             		
             		// If there is no piece selected
 	            	if (selectedPiecePosition == null) {
@@ -116,11 +116,11 @@ public class GameActivity extends /*ActionBar*/Activity {
 	            			}
 	            			
 	            			// Get the selected piece
-	            			Piece selectedPiece = cellAdapter.getPiece(selectedPiecePosition);
+	            			Piece selectedPiece = cellAdapter.getPieces().getPiece(selectedPiecePosition);
 	            			
 	            			// Select the clicked destination if the selected piece can move to the destination position
 	            			if (selectedPiece != null &&
-	            					selectedPiece.isMoveValid(clickedPosition)) {
+	            					selectedPiece.isMoveValid(cellAdapter.getPieces(), clickedPosition)) {
 		            			selectedDestinationPosition = clickedPosition;
 			            		clickedSquare.setSelection(Selection.DESTINATION);	            				
 	            			}
@@ -142,49 +142,52 @@ public class GameActivity extends /*ActionBar*/Activity {
 		confirmMoveButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				performMove();
+				moveSelectedPiece();
 			}
 		});
 	}
 	
-	private void performMove() {
-		final Map<Position, Piece> pieces = cellAdapter.getPieces();
+	private void moveSelectedPiece() {
+		final Map<Position, Piece> pieces = cellAdapter.getPieces().getPieces();
 		Piece selectedPiece = pieces.get(selectedPiecePosition);
 		
-		// Check for pawn promotion
-		if (selectedPiece.getType() == PieceBehaviour.Type.PAWN) {
-			if ((selectedPiece.getColor() == PieceBehaviour.Color.WHITE &&
-					selectedDestinationPosition.getRank().getRow() == Board.FIRST_RANK_ROW) ||
-					(selectedPiece.getColor() == PieceBehaviour.Color.BLACK &&
-					selectedDestinationPosition.getRank().getRow() == Board.LAST_RANK_ROW)) {
-				showPromotionDialog(selectedDestinationPosition, selectedPiece);
+		if (selectedPiece != null) {
+			// Check for pawn promotion
+			if (selectedPiece.getType() == PieceBehaviour.Type.PAWN) {
+				if ((selectedPiece.getColor() == PieceBehaviour.Color.WHITE &&
+						selectedDestinationPosition.getRank().getRow() == Board.FIRST_RANK_ROW) ||
+						(selectedPiece.getColor() == PieceBehaviour.Color.BLACK &&
+						selectedDestinationPosition.getRank().getRow() == Board.LAST_RANK_ROW)) {
+					showPromotionDialog(selectedDestinationPosition, selectedPiece);
+				}
 			}
+			
+			// Update chessboard
+			/*pieces.remove(selectedPiecePosition);
+			pieces.put(selectedDestinationPosition, selectedPiece);*/
+			selectedPiece.move(cellAdapter.getPieces(), selectedDestinationPosition);
+			cellAdapter.notifyDataSetChanged();
+			
+			// Update turn
+			turn = turn == PieceBehaviour.Color.WHITE ? PieceBehaviour.Color.BLACK : PieceBehaviour.Color.WHITE;
+			
+			turnTextView.setText("Turn: " + turn.toString());
+			
+			// Unselect previous selected piece
+			if (selectedPiecePosition != null) {
+				cellAdapter.getSquare(selectedPiecePosition).setSelection(Selection.NONE);
+				selectedPiecePosition = null;
+			}
+			
+			// Unselect previous selected destination
+			if (selectedDestinationPosition != null) {
+				cellAdapter.getSquare(selectedDestinationPosition).setSelection(Selection.NONE);
+				selectedDestinationPosition = null;
+			}
+			
+			// Hide the confirm move button
+			confirmMoveButton.setVisibility(View.INVISIBLE);
 		}
-		
-		// Update chessboard
-		pieces.remove(selectedPiecePosition);
-		pieces.put(selectedDestinationPosition, selectedPiece);
-		cellAdapter.notifyDataSetChanged();
-		
-		// Update turn
-		turn = turn == PieceBehaviour.Color.WHITE ? PieceBehaviour.Color.BLACK : PieceBehaviour.Color.WHITE;
-		
-		turnTextView.setText("Turn: " + turn.toString());
-		
-		// Unselect previous selected piece
-		if (selectedPiecePosition != null) {
-			cellAdapter.getSquare(selectedPiecePosition).setSelection(Selection.NONE);
-			selectedPiecePosition = null;
-		}
-		
-		// Unselect previous selected destination
-		if (selectedDestinationPosition != null) {
-			cellAdapter.getSquare(selectedDestinationPosition).setSelection(Selection.NONE);
-			selectedDestinationPosition = null;
-		}
-		
-		// Hide the confirm move button
-		confirmMoveButton.setVisibility(View.INVISIBLE);
 	}
 	
 	private void showPromotionDialog(final Position position, final Piece piece) {

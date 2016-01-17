@@ -43,16 +43,24 @@ public class Piece {
 		return pieceBehaviour.getResourceId();
 	}
 	
-	public boolean hasValidMoves() {
-		return pieceBehaviour.hasValidMoves(this);
+	public boolean hasValidMoves(Pieces pieces) {
+		return pieceBehaviour.hasValidMoves(pieces, this);
 	}
 	
-	public boolean isMoveValid(Position destinationPosition) {
-		return pieceBehaviour.isMoveValid(this, destinationPosition);
+	public boolean isMovementValid(Pieces pieces, Position destinationPosition) {
+		return pieceBehaviour.isMovementValid(pieces, this, destinationPosition);
 	}
 	
-	public boolean isInCheck() {
-		return pieceBehaviour.isInCheck(this);
+	public boolean isMoveValid(Pieces pieces, Position destinationPosition) {
+		return pieceBehaviour.isMoveValid(pieces, this, destinationPosition);
+	}
+	
+	public boolean isInCheck(Pieces pieces) {
+		return pieceBehaviour.isInCheck(pieces, this);
+	}
+	
+	public void move(Pieces pieces, Position destinationPosition) {
+		pieceBehaviour.move(pieces, this, destinationPosition);
 	}
 	
 	public void promote(Type newType) {
