@@ -126,7 +126,7 @@ public class Pieces {
 		return null;
 	}
 	
-	public static Pieces getInitialPieces() {
+	public static Pieces getInitialConfiguration() {
 		Map<Position, Piece> positionPiecesMap = new HashMap<Position, Piece>();
 		Pieces pieces = new Pieces(positionPiecesMap);
 		
@@ -165,6 +165,34 @@ public class Pieces {
 		positionPiecesMap.put(new Position('7', 'f'), new Piece(new PawnBehaviour(pieces, PieceBehaviour.Color.BLACK)));
 		positionPiecesMap.put(new Position('7', 'g'), new Piece(new PawnBehaviour(pieces, PieceBehaviour.Color.BLACK)));
 		positionPiecesMap.put(new Position('7', 'h'), new Piece(new PawnBehaviour(pieces, PieceBehaviour.Color.BLACK)));
+		
+		return pieces;
+	}
+	
+	public static Pieces getCheckmateConfiguration() {
+		Map<Position, Piece> positionPiecesMap = new HashMap<Position, Piece>();
+		Pieces pieces = new Pieces(positionPiecesMap);
+		
+		// White pieces
+		positionPiecesMap.put(new Position('4', 'c'), new Piece(new KingBehaviour(pieces, PieceBehaviour.Color.WHITE)));
+		positionPiecesMap.put(new Position('8', 'a'), new Piece(new RookBehaviour(pieces, PieceBehaviour.Color.WHITE)));
+		
+		// Black pieces
+		positionPiecesMap.put(new Position('4', 'a'), new Piece(new KingBehaviour(pieces, PieceBehaviour.Color.BLACK)));
+		
+		return pieces;
+	}
+	
+	public static Pieces getStalemateConfiguration() {
+		Map<Position, Piece> positionPiecesMap = new HashMap<Position, Piece>();
+		Pieces pieces = new Pieces(positionPiecesMap);
+		
+		// White pieces
+		positionPiecesMap.put(new Position('7', 'f'), new Piece(new KingBehaviour(pieces, PieceBehaviour.Color.WHITE)));
+		positionPiecesMap.put(new Position('6', 'g'), new Piece(new QueenBehaviour(pieces, PieceBehaviour.Color.WHITE)));
+		
+		// Black pieces
+		positionPiecesMap.put(new Position('8', 'h'), new Piece(new KingBehaviour(pieces, PieceBehaviour.Color.BLACK)));
 		
 		return pieces;
 	}

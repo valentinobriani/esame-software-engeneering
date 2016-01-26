@@ -100,7 +100,7 @@ public class Game {
 	
 	private void start() {
 		state = State.START;
-		cellAdapter.setPieces(Pieces.getInitialPieces());
+		cellAdapter.setPieces(Pieces.getInitialConfiguration());
 		cellAdapter.notifyDataSetChanged();
 		play();
 	}

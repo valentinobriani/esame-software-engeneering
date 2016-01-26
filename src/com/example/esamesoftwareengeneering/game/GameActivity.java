@@ -242,6 +242,11 @@ public class GameActivity extends Activity {
 			
 			// Show the dialog
 			promotionAlertDialog.show();
-		}		
+		}
 	}
+	
+	public Game getGame() {
+		return game;
+	}
+	
 }
